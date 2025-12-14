@@ -31,6 +31,8 @@ a-price-whole: Contains the whole number part of the price (e.g., 25).
 a-price-fraction: Contains the fractional part of the price (e.g., .99).
 
 If the price information is found, the script combines these parts into a complete price string (e.g., 25.99 $).
+<img width="708" height="101" alt="image" src="https://github.com/user-attachments/assets/68e991b4-7685-43d2-8ae9-d27c8fea360c" />
+
 
 Handling Missing Data:
 
