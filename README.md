@@ -1,92 +1,68 @@
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from webdriver_manager.chrome import ChromeDriverManager
-selenium: Used for automating interactions with web pages.
+Amazon Price Tracker
 
-By: Defines various methods for finding elements (such as ID, CLASS_NAME, etc.).
+This script uses Selenium to scrape product information (product name and price) from an Amazon product page. It is designed to run in headless mode, meaning it doesn't open a visible browser window, making it faster and more efficient for automation tasks.
 
-Service: Used to launch the Chrome browser through Selenium.
+Requirements
 
-WebDriverWait: Waits for an element to load before proceeding (ensures the page is fully loaded).
+Before running the script, make sure you have the following libraries installed:
 
-expected_conditions: Waits for specific conditions to be met, such as checking if an element is present (e.g., presence_of_element_located).
+selenium
 
-ChromeDriverManager: Helps in automatically finding the correct driver for Chrome.
+webdriver_manager
 
-Creating the Chrome Browser:
-python
-Copy code
-options = webdriver.ChromeOptions()
-options.add_argument("--headless=new")  # Runs browser without a graphical interface, headless mode
-options.add_argument("--window-size=1920,1080")  # Defines the size of the browser window
+You can install these using pip:
 
-driver = webdriver.Chrome(
-    service=Service(ChromeDriverManager().install()),  # Installs ChromeDriver automatically
-    options=options  # Applies the specified options (headless mode, etc.)
-)
-ChromeOptions(): This object allows you to configure the Chrome browser settings.
+pip install selenium webdriver-manager
 
-headless mode: Ensures the script runs without opening a visible browser window, making the process faster.
+How the Script Works
 
-window-size=1920,1080: Sets the size of the browser window.
+Setup Chrome Browser:
+The script uses Selenium with Chrome in headless mode, so it does not open a visible browser window.
 
-webdriver.Chrome(): Launches the Chrome browser with the specified configurations.
+ChromeOptions(): Configures Chrome to run in headless mode and defines the window size.
 
-Loading the Amazon Product Page:
-python
-Copy code
+ChromeDriverManager: Automatically downloads and installs the correct ChromeDriver.
+
+Access Amazon Product Page:
+The script loads the product page URL using driver.get().
+
+Wait for Elements:
+It waits for the product title and price to be loaded on the page using WebDriverWait and expected_conditions.
+
+Extract Product Information:
+
+Product Name: Extracted using the productTitle ID.
+
+Price: Extracted using CSS classes (a-price-symbol, a-price-whole, a-price-fraction) to get the symbol, whole part, and fractional part of the price.
+
+Output:
+The product name and price are printed to the console.
+
+Close Browser:
+Once the task is completed, the browser is closed using driver.quit().
+
+Usage
+
+Clone or download this repository.
+
+Install the required libraries using pip install as mentioned above.
+
+Run the script with the URL of the Amazon product you want to track. You can replace the sample URL in the script with any Amazon product page link.
+
 driver.get("https://www.amazon.com/ARVEXO-Christmas-Birthday-Gifts-Women/dp/B0FGJDSB4Z")
-get(): Directs the browser to the specified URL. In this case, it opens an Amazon product page.
 
-Waiting for Elements to Load (Explicit Wait):
-python
-Copy code
-wait = WebDriverWait(driver, 20)  # Waits for a maximum of 20 seconds
 
-product = wait.until(
-    EC.presence_of_element_located((By.ID, "productTitle"))
-).text.strip()
-WebDriverWait: Waits for a specific element to be present on the page.
+The script will output the product name and its price in the terminal.
 
-presence_of_element_located: Checks if an element with the specified ID (in this case, "productTitle") is present.
+Example output:
 
-.text.strip(): Retrieves the text of the element and removes any leading or trailing whitespace.
+Product: ARVEXO Christmas Birthday Gifts for Women
+Price: $19.99
 
-Finding the Price (with Error Handling):
-python
-Copy code
-price = "Price not found"
+Code Explanation
 
-try:
-    symbol = driver.find_element(By.CLASS_NAME, "a-price-symbol").text
-    whole = driver.find_element(By.CLASS_NAME, "a-price-whole").text
-    fraction = driver.find_element(By.CLASS_NAME, "a-price-fraction").text
-    price = f"{whole}.{fraction} {symbol}"
-except:
-    pass
-find_element(By.CLASS_NAME, "a-price-symbol"): This code is used to find the currency symbol (e.g., "$").
+Selenium WebDriver: Automates browser interactions.
 
-find_element(By.CLASS_NAME, "a-price-whole"): Retrieves the whole part of the price.
+WebDriverWait: Waits for elements to be present on the page before interacting with them.
 
-find_element(By.CLASS_NAME, "a-price-fraction"): Retrieves the fractional part of the price.
-
-f"{whole}.{fraction} {symbol}": Combines the whole part, fractional part, and symbol into the complete price.
-
-try...except: If any of the price elements are not found, the script handles the error without breaking and sets Price not found as the result.
-
-Printing the Final Results:
-python
-Copy code
-print("Product:", product)
-print("Price:", price)
-This part prints the product name and its price to the console.
-
-Closing the Browser:
-python
-Copy code
-driver.quit()  # Closes the browser
-quit(): Closes the browser and completes the operation.
-
+Error Handling: If the price is not found, the script handles the exception and prints "Price not found"
