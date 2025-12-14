@@ -1,74 +1,65 @@
-# ----------------------------------------------------------
-# Amazon Price Tracker using Selenium
-# ----------------------------------------------------------
-# This script tracks the price of a specific product on Amazon.
-# It extracts the product's name, price, and currency symbol and prints them in the terminal.
-# The script uses Selenium WebDriver with explicit waits to handle dynamic content.
-# It also handles missing price elements gracefully.
-# ----------------------------------------------------------
-
-# Import necessary libraries
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
+selenium: Used for automating interactions with web pages.
 
-# Explanation:
-# - webdriver: Used to automate browser actions.
-# - By: Provides methods to locate elements on the page.
-# - Service: Helps manage ChromeDriver service.
-# - WebDriverWait and expected_conditions: Wait for elements to load dynamically.
-# - webdriver_manager: Automatically downloads and manages ChromeDriver.
+By: Defines various methods for finding elements (such as ID, CLASS_NAME, etc.).
 
-# Set up Chrome browser options
+Service: Used to launch the Chrome browser through Selenium.
+
+WebDriverWait: Waits for an element to load before proceeding (ensures the page is fully loaded).
+
+expected_conditions: Waits for specific conditions to be met, such as checking if an element is present (e.g., presence_of_element_located).
+
+ChromeDriverManager: Helps in automatically finding the correct driver for Chrome.
+
+Creating the Chrome Browser:
+python
+Copy code
 options = webdriver.ChromeOptions()
-options.add_argument("--headless=new")  # Run Chrome in background without opening window
-options.add_argument("--window-size=1920,1080")  # Set window size to ensure proper rendering
+options.add_argument("--headless=new")  # Runs browser without a graphical interface, headless mode
+options.add_argument("--window-size=1920,1080")  # Defines the size of the browser window
 
-# Explanation:
-# Headless mode allows the script to run without displaying the browser.
-# Window size ensures that all page elements are correctly loaded and visible for Selenium.
-
-# Initialize WebDriver
 driver = webdriver.Chrome(
-    service=Service(ChromeDriverManager().install()),
-    options=options
+    service=Service(ChromeDriverManager().install()),  # Installs ChromeDriver automatically
+    options=options  # Applies the specified options (headless mode, etc.)
 )
+ChromeOptions(): This object allows you to configure the Chrome browser settings.
 
-# Explanation:
-# Launch Chrome browser with the specified options.
-# The 'driver' object allows interacting with the browser (opening URLs, finding elements, etc.)
+headless mode: Ensures the script runs without opening a visible browser window, making the process faster.
 
-# Open the Amazon product page
+window-size=1920,1080: Sets the size of the browser window.
+
+webdriver.Chrome(): Launches the Chrome browser with the specified configurations.
+
+Loading the Amazon Product Page:
+python
+Copy code
 driver.get("https://www.amazon.com/ARVEXO-Christmas-Birthday-Gifts-Women/dp/B0FGJDSB4Z")
-wait = WebDriverWait(driver, 20)
+get(): Directs the browser to the specified URL. In this case, it opens an Amazon product page.
 
-# Explanation:
-# Navigate to the product page.
-# WebDriverWait is set to 20 seconds to wait for elements to appear.
-# Explicit waits ensure the code doesn't fail if elements take time to load.
+Waiting for Elements to Load (Explicit Wait):
+python
+Copy code
+wait = WebDriverWait(driver, 20)  # Waits for a maximum of 20 seconds
 
-# Extract product title
 product = wait.until(
     EC.presence_of_element_located((By.ID, "productTitle"))
 ).text.strip()
+WebDriverWait: Waits for a specific element to be present on the page.
 
-# Explanation:
-# Waits until the product title element is present on the page.
-# .text extracts the text from the element.
-# .strip() removes any leading or trailing whitespace.
-# Ensures a clean product name is obtained.
+presence_of_element_located: Checks if an element with the specified ID (in this case, "productTitle") is present.
 
-# Initialize price variable
+.text.strip(): Retrieves the text of the element and removes any leading or trailing whitespace.
+
+Finding the Price (with Error Handling):
+python
+Copy code
 price = "Price not found"
 
-# Explanation:
-# Set a default value in case the price is not found.
-# This prevents the script from crashing if price elements are missing.
-
-# Extract product price and currency
 try:
     symbol = driver.find_element(By.CLASS_NAME, "a-price-symbol").text
     whole = driver.find_element(By.CLASS_NAME, "a-price-whole").text
@@ -76,27 +67,26 @@ try:
     price = f"{whole}.{fraction} {symbol}"
 except:
     pass
+find_element(By.CLASS_NAME, "a-price-symbol"): This code is used to find the currency symbol (e.g., "$").
 
-# Explanation:
-# Amazon splits price into three separate HTML elements:
-# 1. 'a-price-symbol' -> currency symbol (e.g., $, ₼, €)
-# 2. 'a-price-whole' -> whole number part of the price (e.g., 86)
-# 3. 'a-price-fraction' -> fractional part of the price (after decimal, e.g., 00)
-# These are combined into a single string to form a complete price like "86.00 ₼".
-# The try-except block ensures the script doesn't crash if any part is missing.
+find_element(By.CLASS_NAME, "a-price-whole"): Retrieves the whole part of the price.
 
-# Print product name and price
+find_element(By.CLASS_NAME, "a-price-fraction"): Retrieves the fractional part of the price.
+
+f"{whole}.{fraction} {symbol}": Combines the whole part, fractional part, and symbol into the complete price.
+
+try...except: If any of the price elements are not found, the script handles the error without breaking and sets Price not found as the result.
+
+Printing the Final Results:
+python
+Copy code
 print("Product:", product)
 print("Price:", price)
+This part prints the product name and its price to the console.
 
-# Explanation:
-# Displays the product name and full price with currency in the terminal.
-# Terminal output can be used for lab verification.
-
-# Close the browser
-driver.quit()
-
-# Explanation:
-# Properly closes the Chrome browser and frees system resources.
-# Important to prevent memory leaks or leftover browser processes.
+Closing the Browser:
+python
+Copy code
+driver.quit()  # Closes the browser
+quit(): Closes the browser and completes the operation.
 
