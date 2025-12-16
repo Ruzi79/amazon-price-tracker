@@ -53,5 +53,3 @@ print("Price:", price)
 
 # Close the browser once the task is complete
 driver.quit()
-
-
