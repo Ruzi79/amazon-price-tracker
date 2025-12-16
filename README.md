@@ -1,47 +1,46 @@
+# Amazon Product Price Tracker
+
+This Python script is designed to track product prices on Amazon product pages over time. Using Selenium WebDriver, it automates opening a product page, extracts the product price, and monitors any changes in the price. This is useful for tracking price drops or changes for your favorite products.
+
 # Explanation of the Script:
-
-This Python script is designed to scrape product information, specifically the product name and price, from an Amazon product page using Selenium. Selenium automates the web browser to retrieve data, making it a powerful tool for web scraping tasks.
-
-# How the Script Works:
-
 Setting Up the Browser with Selenium:
 
-The script starts by setting up Selenium WebDriver for Chrome, configuring it to run in headless mode (without a graphical interface). This makes it faster and more efficient for automated tasks.
+The script sets up Selenium WebDriver for Chrome and opens the browser window.
 
-The window size is explicitly set to ensure the page renders correctly for consistent scraping.
+The window size is explicitly set to ensure the page renders correctly for consistent price tracking.
 
 Navigating to the Product Page:
 
-Using driver.get("URL"), the script opens a specific Amazon product page. You can easily change the URL to scrape data for different products.
+The script navigates to a specific Amazon product page using driver.get("URL"). This can be customized to track different products by changing the URL.
 
-Waiting for Page Elements to Load:
+Tracking Price Changes:
 
-The script uses explicit waits with WebDriverWait and expected_conditions to ensure that elements, such as the product title, have fully loaded before the script proceeds. This prevents errors that may occur if the script attempts to scrape data from elements that aren't yet visible.
+The script tracks the product price by scraping it each time it runs.
 
-Extracting Product Information:
+Price information is extracted using the elements:
 
-The script extracts the product title by looking for an element with the ID productTitle, which contains the name of the product.
+a-price-symbol: Currency symbol (e.g., $).
 
-It then looks for the price information by searching for multiple elements:
+a-price-whole: The whole number part of the price (e.g., 25).
 
-a-price-symbol: Contains the currency symbol (e.g., $).
+a-price-fraction: The fractional part of the price (e.g., .99).
 
-a-price-whole: Contains the whole number part of the price (e.g., 25).
-
-a-price-fraction: Contains the fractional part of the price (e.g., .99).
-
-If the price information is found, the script combines these parts into a complete price string (e.g., 25.99 $).
-<img width="708" height="101" alt="image" src="https://github.com/user-attachments/assets/68e991b4-7685-43d2-8ae9-d27c8fea360c" />
-
+The script saves the current price and can compare it with previous prices to track changes over time.
 
 Handling Missing Data:
 
-If the price or product title cannot be found, the script gracefully handles this by returning a default message, such as "Price not found".
+If the price cannot be found, the script will print a message like "Price not found" and exit gracefully without crashing.
+
+Tracking and Saving Data:
+
+Prices can be saved to a local file or database for future tracking.
+
+Optionally, you can set up the script to send an email or a notification when the price drops.
 
 Printing the Data:
 
-After extracting the product name and price, the script prints this information to the console, providing a clear output.
+The script prints the product name, current price, and any changes since the last check to the console.
 
 Closing the Browser:
 
-After the data has been collected, the script closes the browser with driver.quit() to free up system resources.
+After the tracking is done, the script closes the browser window with driver.quit() to free up resources.
