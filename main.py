@@ -8,8 +8,8 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 # Set up Chrome options
 options = webdriver.ChromeOptions()
-# Run Chrome in headless mode (no GUI)
-options.add_argument("--headless=new")
+# Remove headless mode to see the browser window
+# options.add_argument("--headless=new")  # Commented out this line so the browser will open
 # Set window size to ensure proper rendering
 options.add_argument("--window-size=1920,1080")
 
@@ -20,7 +20,7 @@ driver = webdriver.Chrome(
 )
 
 # Navigate to the specified Amazon product page
-driver.get("https://www.amazon.com/ARVEXO-Christmas-Birthday-Gifts-Women/dp/B0FGJDSB4Z")
+driver.get("https://www.amazon.com/Webesh-Ceramic-Enthusiasts-Cappuccino-3-42%C3%974-7%C3%974-7in/dp/B096F3VYPQ")
 
 # Create a WebDriverWait object with a timeout of 20 seconds
 wait = WebDriverWait(driver, 20)
@@ -53,3 +53,5 @@ print("Price:", price)
 
 # Close the browser once the task is complete
 driver.quit()
+
+
