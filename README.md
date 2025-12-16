@@ -46,7 +46,8 @@ Closing the Browser:
 After the tracking is done, the script closes the browser window with driver.quit() to free up resources.
 
 
-<img width="1257" height="101" alt="image" src="https://github.com/user-attachments/assets/98a6de79-4620-4bad-8f6e-baa1c7108999" />
+<img width="1318" height="100" alt="image" src="https://github.com/user-attachments/assets/61c3b8f2-6dfe-4ad9-975c-f26c4cb5f60c" />
 
-![Uploading image.png…]()
+<img width="1874" height="933" alt="image" src="https://github.com/user-attachments/assets/97cab7c6-a026-4496-a61a-c87beb923f49" />
+
 
