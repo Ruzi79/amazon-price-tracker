@@ -44,3 +44,9 @@ The script prints the product name, current price, and any changes since the las
 Closing the Browser:
 
 After the tracking is done, the script closes the browser window with driver.quit() to free up resources.
+
+
+<img width="1257" height="101" alt="image" src="https://github.com/user-attachments/assets/98a6de79-4620-4bad-8f6e-baa1c7108999" />
+
+![Uploading image.png…]()
+
