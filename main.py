@@ -71,7 +71,7 @@ try:
         f"data/screenshots/amazon_{datetime.now().strftime('%Y%m%d_%H%M%S')}.png"
     )
 
-    print(f"Məhsul: {title}\nQiymət: {p} ({val})")  # Print product name and price
+    print(f"Product: {title}\nPrice: {p} ({val})")  # Print product name and price
 
 finally:
     d.quit()                               # Close the browser
